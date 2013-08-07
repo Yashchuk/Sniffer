@@ -10,7 +10,7 @@ LIBS := -lpcap
 
 all: sniffer-1.0.0
 
-sniffer-1.0.0: $(OBJS) $(OBJS)
+sniffer-1.0.0: $(OBJS)
 	@echo 'Building target: $@'
 	gcc  -o "sniffer-1.0.0" $(OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
