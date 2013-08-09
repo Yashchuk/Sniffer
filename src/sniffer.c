@@ -87,7 +87,7 @@ int snif_loop_session( pcap_t* handle, int count_packet )
 }
 
 
-void snif_got_packet ( u_char* arg,
+static void snif_got_packet ( u_char* arg,
 		const struct pcap_pkthdr* header,
 		const u_char* packet )
 {

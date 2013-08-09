@@ -1,28 +1,28 @@
 
-RM := rm -rf
-
+TARGET = sniffer
+CFLAGS = -O3 -Wall -c
+LIBS = -lpcap
 OBJS := ./src/main.o \
 ./src/snif_list.o \
 ./src/snif_parser.o \
 ./src/sniffer.o 
 
-LIBS := -lpcap
-
-all: sniffer-1.0.0
-
-sniffer-1.0.0: $(OBJS)
+all: $(TARGET)
+$(TARGET): $(OBJS)
 	@echo 'Building target: $@'
-	gcc  -o "sniffer-1.0.0" $(OBJS) $(LIBS)
+	$(CC) -o $@ $^ $(LIBS)
 	@echo 'Finished building target: $@'
-
+	@echo ''
 src/%.o: src/%.c
 	@echo 'Building file: $<'
-	gcc -O3 -Wall -c -fmessage-length=0 -o "$@" "$<"
+	$(CC) $(CFLAGS) -o $@ $^
 	@echo 'Finished building: $<'
+	@echo ''
 
+.PHONY: clean
 clean:
-	-$(RM) $(OBJS) sniffer-1.0.0
+	$(RM) $(OBJS) $(TARGET)
 
-.PHONY: all clean dependents
+
 
 

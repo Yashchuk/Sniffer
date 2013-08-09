@@ -23,7 +23,7 @@ snif_list_item* snif_parse_packet(const unsigned char* packet)
 	memcpy(new_item->MAC_data, ethernet, sizeof(snif_link_layer));
 	new_item->count_packet = 1;
 
-	unsigned char* p = (char*) &new_item->MAC_data->MAC_protocol;
+	unsigned char* p = (unsigned char*) &new_item->MAC_data->MAC_protocol;
 	unsigned char tmp = *p;
 	*p = *(p+1);
 	*(p+1) = tmp;
