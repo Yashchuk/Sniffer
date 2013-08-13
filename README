@@ -16,7 +16,7 @@ Usage:
 2) Run:
    run 'sniffer' as root ('sudo ./sniffer').
 		
-sniffer [ -h ] [ -c count packets ] [ -d name device ] [ expression ]
+sniffer [ -h ] [ -c count packets ] [ -i name interface ] [ expression ]
 
 [ -h ] - call help
 [ expression ] - selects which packets will  be  dumped.   
