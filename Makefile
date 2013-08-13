@@ -1,28 +1,20 @@
 
+vpath %.c src
+
+.LIBPATTERNS = lib%.a
 TARGET = sniffer
 CFLAGS = -O3 -Wall -c
 LIBS = -lpcap
-OBJS := ./src/main.o \
-./src/snif_list.o \
-./src/snif_parser.o \
-./src/sniffer.o 
+OBJS := $(patsubst %.c,%.o,$(wildcard src/*.c))
 
 all: $(TARGET)
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(LIBS)
 	@echo 'Building target: $@'
-	$(CC) -o $@ $^ $(LIBS)
+	$(CC) $^ -o $@
 	@echo 'Finished building target: $@'
-	@echo ''
-src/%.o: src/%.c
-	@echo 'Building file: $<'
-	$(CC) $(CFLAGS) -o $@ $^
-	@echo 'Finished building: $<'
 	@echo ''
 
 .PHONY: clean
 clean:
 	$(RM) $(OBJS) $(TARGET)
-
-
-
 
