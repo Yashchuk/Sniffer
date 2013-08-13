@@ -12,26 +12,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-pcap_t* snif_init_session( char* device, const char* expr_filter, char** err_buff )
+pcap_t* snif_init_session( char* interface, const char* expr_filter, char** err_buff )
 {
 	pcap_t* handle;
 	*err_buff = (char*) calloc( PCAP_ERRBUF_SIZE, sizeof(char) );
 
-	if( !device ) {
-		device = pcap_lookupdev(*err_buff);
-		if ( !device ) {
+	if( !interface ) {
+		interface = pcap_lookupdev(*err_buff);
+		if ( !interface ) {
 			return SNIF_RESULT_FAIL;
 		}
 	}
 
-	handle = pcap_open_live(device, BUFSIZ, DEVICE_PROMISCUOUS_MODE, DEVICE_READ_TIME_OUT, *err_buff);
+	handle = pcap_open_live(interface, BUFSIZ, DEVICE_PROMISCUOUS_MODE, DEVICE_READ_TIME_OUT, *err_buff);
 	if( !handle ) {
 		return SNIF_RESULT_FAIL;
 	}
 
 	if( pcap_datalink( handle ) != DLT_EN10MB ) {
 		pcap_close(handle);
-		sprintf(*err_buff, "Device \"%s\" doesn't provide Ethernet headers - not supported\n", device);
+		sprintf(*err_buff, "Interface \"%s\" doesn't provide Ethernet headers - not supported\n", interface);
 		return SNIF_RESULT_FAIL;
 	}
 
@@ -40,7 +40,7 @@ pcap_t* snif_init_session( char* device, const char* expr_filter, char** err_buf
 		bpf_u_int32 net;
 		struct bpf_program packet_filter;
 
-		if( pcap_lookupnet(device, &net, &mask, *err_buff) == -1 ) {
+		if( pcap_lookupnet(interface, &net, &mask, *err_buff) == -1 ) {
 			pcap_close(handle);
 			return SNIF_RESULT_FAIL;
 		}
@@ -58,7 +58,7 @@ pcap_t* snif_init_session( char* device, const char* expr_filter, char** err_buf
 		}
 	}
 
-	printf("\n\t\tUSING DEVICE: \"%s\"\n\n", device);
+	printf("\n\t\tUSING INTERFACE: \"%s\"\n\n", interface);
 	free(*err_buff);
 	return handle;
 }

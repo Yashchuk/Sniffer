@@ -31,7 +31,7 @@
  *
  *  returns: session handler or fail inform
  */
-pcap_t* snif_init_session( char* device, const char* expr_filter, char** err_buff );
+pcap_t* snif_init_session( char* interface, const char* expr_filter, char** err_buff );
 
 
 /*
